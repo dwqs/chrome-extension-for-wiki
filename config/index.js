@@ -9,7 +9,7 @@ module.exports =  {
         assetsPublicPath: '/',
         contentBase: path.resolve(__dirname, '../dist'),
         port: 8080,
-        prefix: '{{prefix}}'
+        prefix: 'https://api.github.com'
     },
     build:{
         env: require('./prod.env.js'),
