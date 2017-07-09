@@ -6,14 +6,14 @@
 
 <script>
     export default {
-        data() {
+        data () {
             return {
                 t: '11'
-            }
+            };
         },
 
-        created() {
-            console.log('111', 1)
+        created () {
+            console.log('111', 1);
         }
-    }
+    };
 </script>
