@@ -16,7 +16,9 @@
     "default_popup":"dist/index.html"
   },
   "background":{
-    "scripts": [],
+    "scripts": [
+      "dist/scripts/new-tab.js"
+    ],
     "persistent": false
   },
   "permissions":[
