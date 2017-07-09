@@ -22,6 +22,7 @@
   "permissions":[
     "https://api.github.com/*",
     "tabs",
-    "storage"
+    "storage",
+    "notifications"
   ]
 }
