@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Awesome Article Link to Your Wiki Repo</title>
+    <% if (htmlWebpackPlugin.options.env === 'development') { %>
+    <script src="/vendor.dll.js"></script>
+    <% } %>
 </head>
 <body>
     <div id="wiki"></div>

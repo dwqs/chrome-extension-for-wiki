@@ -81,7 +81,7 @@ module.exports = {
         //copy assets
         new CopyWebpackPlugin([
             {context: '../src', from: 'images/**/*', to: path.resolve(__dirname, '../dist'), force: true},
-            {context: '../src', from: 'scripts/**/*', to: path.resolve(__dirname, '../dist'), force: true}
+            {context: '../src', from: 'scripts/**/*', to: path.resolve(__dirname, '../dist'), force: true},
         ]),
 
         new HappyPack(getHappyPackConfig({
@@ -100,7 +100,7 @@ module.exports = {
           filename: 'index.html',
           template: 'index.html',
           inject: true,
-          env: process.env.NODE_ENV,
+          env: env,
           minify: {
                 removeComments: true,
                 collapseWhitespace: true,
