@@ -5,7 +5,6 @@
 </template>
 
 <script>
-
     import Setting from '../setting/index.vue';
     import AddLink from '../add-link/index.vue';
 
@@ -14,5 +13,5 @@
             Setting,
             AddLink
         }
-    }
+    };
 </script>
