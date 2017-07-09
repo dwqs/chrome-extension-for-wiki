@@ -39,7 +39,7 @@ devConfig.plugins = (devConfig.plugins || []).concat([
     new webpack.DllReferencePlugin({
       context: __dirname,
       //引入 dll 生成的 manifest 文件
-      manifest: require('../dist/vendor-manifest.json')
+      manifest: require('../assets/vendor-manifest.json')
     }),
 
     new webpack.NoEmitOnErrorsPlugin(),
