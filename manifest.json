@@ -4,7 +4,7 @@
   "description":"Add Awesome Article Link to Your Wiki Repo",
   "version":"1.0.0",
   "author": "https://github.com/dwqs",
-  "homepage_url": "https://github.com/fmfe/chrome-extensition-for-wiki",
+  "homepage_url": "https://github.com/fmfe/chrome-extension-for-wiki",
   "icons": {
     "16": "images/wiki16.png",
     "48": "images/wiki48.png",
