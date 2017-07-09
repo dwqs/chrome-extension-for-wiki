@@ -6,7 +6,7 @@ const webpack = require('webpack');
 module.exports = {
     entry: {
         vendor: [
-            'vue', 'vue-router', 'axios', 'babel-polyfill'
+            'vue', 'axios'
         ]
     },
     output: {

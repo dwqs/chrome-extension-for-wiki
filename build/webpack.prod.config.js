@@ -108,7 +108,7 @@ prodConfig.plugins = (prodConfig.plugins || []).concat([
 module.exports = Object.assign({},prodConfig,{
     entry: {
         app: path.resolve(__dirname, '../src/page/index.js'),
-        vendor: ['vue', 'axios', 'vue-router', 'babel-polyfill']
+        vendor: ['vue', 'axios']
     },
     output: {
         filename: "[name].[chunkhash:8].js",
