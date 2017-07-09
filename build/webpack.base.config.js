@@ -86,7 +86,14 @@ module.exports = {
 
         new HappyPack(getHappyPackConfig({
             id: 'vue',
-            loaders: ['vue-loader']
+            loaders: [{
+                loader: 'vue-loader',
+                options: {
+                    // vue-loader 13(https://github.com/vuejs/vue-loader/releases) 默认将这里开启，但会导致 HMR 模式失效
+                    // https://github.com/vuejs/vue-loader/issues/863
+                    esModule: false
+                }
+            }]
         })),
 
         new HappyPack(getHappyPackConfig({

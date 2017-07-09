@@ -9,6 +9,7 @@
     "dll": "./node_modules/.bin/webpack --config webpack.dll.config.js",
     "dev": "./node_modules/.bin/cross-env NODE_ENV=development node ./build/dev-server.js",
     "build": "./node_modules/.bin/cross-env NODE_ENV=production ./node_modules/.bin/webpack --config ./build/webpack.prod.config.js --progress --hide-modules",
+    "postbuild": "cp manifest.json ./dist",
     "ilint": "./node_modules/.bin/eslint src/**/*.js src/**/*.vue",
     "fix": "./node_modules/.bin/eslint --fix src/**/*.js src/**/*.vue"
   },

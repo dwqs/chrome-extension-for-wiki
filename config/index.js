@@ -5,10 +5,10 @@ let path = require('path');
 module.exports =  {
     dev:{
         env: require('./dev.env.js'),
-        assetsRoot: path.resolve(__dirname, '../assets'),
+        assetsRoot: path.resolve(__dirname, '../dist'),
         assetsPublicPath: '/',
-        contentBase: path.resolve(__dirname, '../assets'),
-        port: 8080,
+        contentBase: path.resolve(__dirname, '../dist'),
+        port: 4000,
         prefix: 'https://api.github.com'
     },
     build:{

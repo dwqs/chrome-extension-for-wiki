@@ -31,7 +31,7 @@ prodConfig.module.rules.unshift({
 });
 
 prodConfig.plugins = (prodConfig.plugins || []).concat([
-    new CleanWebpackPlugin(['{{path}}'], {
+    new CleanWebpackPlugin(['dist'], {
         root: path.join(__dirname, '../'),
         verbose: true,
         dry: false
@@ -74,8 +74,7 @@ prodConfig.plugins = (prodConfig.plugins || []).concat([
     }),
 
     new webpack.optimize.CommonsChunkPlugin({
-        name: "vendor",
-        filename: "vendor.js"
+        name: "vendor"
     }),
 
     // gzip
