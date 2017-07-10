@@ -1,7 +1,7 @@
 {
   "name": "chrome-extension-for-wiki",
   "version": "1.0.0",
-  "description": "Add Awesome Article Link to Your Wiki Repo",
+  "description": "Add awesome article link to your wiki repo on github.com",
   "author": "https://github.com/dwqs",
   "license": "MIT",
   "scripts": {
