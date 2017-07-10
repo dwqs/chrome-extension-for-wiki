@@ -15,11 +15,11 @@ Vue.use(Option);
 
 window.eventBus = new Vue();
 window.eventBus.$on('saveData', (token = '', repo = '') => {
-    if(token) {
+    if (token) {
         window.token = token;
     }
 
-    if(repo) {
+    if (repo) {
         window.repo = repo;
     }
 });

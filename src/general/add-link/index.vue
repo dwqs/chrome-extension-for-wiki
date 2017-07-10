@@ -41,7 +41,7 @@
             repo: String
         },
 
-        data(){
+        data () {
             return {
                 fetchData: false,
                 disabled: false,
@@ -51,16 +51,16 @@
                 errorMsg: '',
                 number: '',
                 options: []
-            }
+            };
         },
 
         methods: {
-            getIssuesByRepo(){
-                api.getRepoIssues(this.repo).then((res) =>{
+            getIssuesByRepo () {
+                api.getRepoIssues(this.repo).then((res) => {
                     this.loading = false;
-                    let {data} = res;
-                    if(data.length){
-                        let t = [];
+                    const { data } = res;
+                    if (data.length) {
+                        const t = [];
                         data.forEach(item => {
                             t.push({
                                 label: item.title,
@@ -79,25 +79,24 @@
                 }).catch((e) => {
                     this.loading = false;
                     this.errorMsg = e.message || `获取 ${this.repo} 的 issues 出错了~`;
-                })
+                });
             },
 
-            save() {
-
-                if(this.disabled){
+            save () {
+                if (this.disabled) {
                     return;
                 }
-                if(!this.number){
+                if (!this.number) {
                     this.errorMsg = '请选择 issue';
                     return;
                 }
 
-                if(!this.title){
+                if (!this.title) {
                     this.errorMsg = '请输入 title';
                     return;
                 }
 
-                if(!this.url){
+                if (!this.url) {
                     this.errorMsg = '请输入 url';
                     return;
                 }
@@ -106,8 +105,8 @@
                 this.errorMsg = '';
 
                 api.getSingleIssue(this.repo, this.number).then(res => {
-                    let {data} = res;
-                    let {title, body, state, milestone, labels, assignees} = data;
+                    const { data } = res;
+                    let { title, body, state, milestone, labels, assignees } = data;
                     body = body + `\n* [${this.title}](${this.url})`;
 
                     api.editSingleIssue(this.repo, this.number, {
@@ -122,7 +121,7 @@
                             iconUrl: 'images/wiki48.png'
                         }, (notificationId) => {
 
-                        })
+                        });
                     }).catch((e) => {
                         this.errorMsg = e.message || '添加失败';
                         this.disabled = false;
@@ -135,26 +134,26 @@
                 });
             },
 
-            change() {
+            change () {
                 this.$emit('settingChange', true);
             }
         },
 
-        created() {
+        created () {
             // 获取当前标签页的信息
-            chrome.tabs.query({active: true}, (tab) => {
+            chrome.tabs.query({ active: true }, (tab) => {
                 this.title = tab[0].title;
-                this.url= tab[0].url;
+                this.url = tab[0].url;
             });
 
-            if(this.token && this.repo && !this.fetchData){
+            if (this.token && this.repo && !this.fetchData) {
                 this.fetchData = true;
                 this.getIssuesByRepo();
             }
         },
 
-        updated() {
-            if(this.token && this.repo && !this.fetchData) {
+        updated () {
+            if (this.token && this.repo && !this.fetchData) {
                 this.fetchData = true;
                 this.getIssuesByRepo();
             }

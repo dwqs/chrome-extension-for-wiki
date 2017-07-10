@@ -11,20 +11,20 @@
     import AddLink from '../add-link/index.vue';
 
     export default {
-        data() {
+        data () {
             return {
                 isNeedSetting: false,
                 token: '',
                 repo: ''
-            }
+            };
         },
 
-        created() {
-//            chrome.storage.sync.remove(['token', 'repo'], () => {
-//                this.isNeedSetting = false;
-//            });
+        created () {
+        //            chrome.storage.sync.remove(['token', 'repo'], () => {
+        //                this.isNeedSetting = false;
+        //            });
             chrome.storage.sync.get('token', (items) => {
-                if(!items.token) {
+                if (!items.token) {
                     this.isNeedSetting = true;
                     return;
                 }
@@ -34,7 +34,7 @@
             });
 
             chrome.storage.sync.get('repo', (items) => {
-                if(!items.repo) {
+                if (!items.repo) {
                     this.isNeedSetting = true;
                     return;
                 }
@@ -45,7 +45,7 @@
         },
 
         methods: {
-            settingChange(isNeedSetting) {
+            settingChange (isNeedSetting) {
                 this.isNeedSetting = isNeedSetting;
             }
         },
