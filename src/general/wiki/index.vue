@@ -1,6 +1,8 @@
 <template>
     <div class="wiki" id="wiki">
-        <h3>Wiki 设置</h3>
+        <h3>{{ isNeedSetting ? 'Wiki 设置' : '添加链接' }} {{items}}</h3>
+        <setting @settingChange="settingChange" v-if="isNeedSetting"></setting>
+        <add-link v-if="!isNeedSetting"></add-link>
     </div>
 </template>
 
@@ -11,13 +13,33 @@
     export default {
         data() {
             return {
-                token: '',
-                repo: ''
+                isNeedSetting: false,
+                items: null
             }
         },
 
         created() {
+            chrome.storage.sync.remove(['token', 'repo'], () => {
+                this.isNeedSetting = false;
+            });
+            chrome.storage.sync.get('token', (items) => {
+                if(!items.token) {
+                    this.isNeedSetting = true;
+                    this.items = items;
+                    return;
+                }
+                this.isNeedSetting = false;
+            })
+        },
 
+        methods: {
+            settingChange(token, repo) {
+                this.items = {
+                    token,
+                    repo
+                };
+                this.isNeedSetting = false;
+            }
         },
 
         components: {
