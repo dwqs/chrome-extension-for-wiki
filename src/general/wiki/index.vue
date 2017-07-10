@@ -20,9 +20,9 @@
         },
 
         created () {
-        //            chrome.storage.sync.remove(['token', 'repo'], () => {
-        //                this.isNeedSetting = false;
-        //            });
+            chrome.storage.sync.remove(['token', 'repo'], () => {
+                this.isNeedSetting = false;
+            });
             chrome.storage.sync.get('token', (items) => {
                 if (!items.token) {
                     this.isNeedSetting = true;
@@ -47,6 +47,11 @@
         methods: {
             settingChange (isNeedSetting) {
                 this.isNeedSetting = isNeedSetting;
+                if(!isNeedSetting){
+                    // 促使 add-link 更新
+                    this.token = window.token;
+                    this.repo = window.repo;
+                }
             }
         },
 

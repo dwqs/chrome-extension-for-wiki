@@ -35,7 +35,7 @@
     export default {
         data () {
             return {
-                token: '2d4d88bba6c5b8e39a24cd7c84f2428157527653',
+                token: '61a55b4736bf490dd503abaf744d64bb527f86e1',
                 repo: '',
                 disabled: false,
                 errorMsg: '',
