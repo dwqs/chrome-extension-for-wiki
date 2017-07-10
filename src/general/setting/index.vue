@@ -2,7 +2,18 @@
     <div class="setting">
         <div class="setting-input">
             <p>Wiki repo 地址:</p>
-            <el-input placeholder="输入 wiki repo, eg: fmfe/wiki" v-model="repo"></el-input>
+            <el-input placeholder="输入 wiki repo, eg: dwqs/wiki" v-model="repo"></el-input>
+        </div>
+        <div class="setting-input">
+            <p>Repo 类型:</p>
+            <el-select v-model="type" placeholder="请选择">
+                <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+            </el-select>
         </div>
         <div class="setting-input">
             <p>个人Token&nbsp;<span @click="help">(怎么设置)</span>:</p>
@@ -10,21 +21,32 @@
         </div>
         <p class="error-msg" :style="{visibility: errorMsg ? 'visible' : 'hidden'}" v-text="errorMsg"></p>
         <div class="setting-save">
-            <el-button type="primary" :disabled="disabled" @click="save">保存设置</el-button>
+            <el-button type="primary" :disabled="disabled" @click="save">
+                {{ disabled ? '保存中...' : '保存设置'}}
+            </el-button>
         </div>
     </div>
 </template>
 
 <script>
-    import './index.less';
+    import api from '../../network/api';
+    import {repoExist} from '../../utils/index';
 
     export default {
         data () {
             return {
-                token: '',
+                token: '2d4d88bba6c5b8e39a24cd7c84f2428157527653',
                 repo: '',
                 disabled: false,
-                errorMsg: ''
+                errorMsg: '',
+                type: 2,
+                options: [{
+                    value: 1,
+                    label: '个人/Personal'
+                }, {
+                    value: 2,
+                    label: '组织/Orgs'
+                }]
             };
         },
 
@@ -38,6 +60,9 @@
             },
 
             save() {
+                if(this.disabled){
+                    return;
+                }
                 if(!this.repo) {
                     this.errorMsg = '请输入 repo 地址';
                     return;
@@ -67,13 +92,44 @@
 
                 this.disabled = true;
                 this.errorMsg = '';
+                window.eventBus.$emit('saveData', this.token, this.repo);
 
+                if(this.type === 2) {
+                    api.getOrgRepos(this.repo.split('/')[0]).then((res) => {
+                        this.disabled = false;
+                        if(res && repoExist(this.repo.split('/')[1], res.data)) {
+                            this.syncData();
+                        } else {
+                            this.errorMsg = 'repo 不存在';
+                        }
+                    }).catch((e) => {
+                        this.errorMsg = e.message || 'token 或者 repo 无效';
+                        this.disabled = false;
+                        return;
+                    });
+                } else {
+                    api.getUserRepos(this.repo.split('/')[0]).then(res => {
+                        this.disabled = false;
+                        if(res && repoExist(this.repo.split('/')[1], res.data)) {
+                            this.syncData();
+                        } else {
+                            this.errorMsg = 'repo 不存在';
+                        }
+                    }).catch((e) => {
+                        this.errorMsg = e.message || 'token 或者 repo 无效';
+                        this.disabled = false;
+                        return;
+                    });
+                }
+            },
+
+            syncData() {
                 chrome.storage.sync.set({
                     token: this.token,
                     repo: this.repo.replace(/^\//, '')
                 }, () => {
                     this.disabled = false;
-                    this.$emit('settingChange', this.token, this.repo);
+                    this.$emit('settingChange', false);
                 })
             }
         }

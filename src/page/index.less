@@ -1,0 +1,84 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, .wiki, .add-link {
+  width: 225px;
+  min-height: 275px;
+  h3 {
+    margin: 15px auto;
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #c4c4c4;
+  }
+  .error-msg {
+    text-align: center;
+    padding-top: 5px;
+    color: red;
+  }
+
+  .issue-select{
+    max-height: 200px;
+    overflow: scroll;
+  }
+}
+
+.setting-input {
+  span {
+    cursor: pointer;
+    color: #1c8de0;
+  }
+  p {
+    padding: 5px 0;
+  }
+}
+
+.setting {
+  border: 1px solid red;
+  padding: 5px;
+  margin-top: -10px;
+  .setting-input{
+    &:last-child {
+      margin-top: 10px;
+    }
+  }
+  .setting-save {
+    margin: 15px 5px auto;
+    text-align: center;
+    .el-button {
+      width: 100%;
+    }
+  }
+}
+
+.add-link{
+  border: 1px solid red;
+  padding: 5px;
+  margin-top: -10px;
+  .link-save{
+    margin: 15px 5px auto;
+    text-align: center;
+  }
+  .setting-input{
+    &:last-child {
+      margin-top: 10px;
+    }
+  }
+}
+
+.mask{
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  color: #1c8de0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  background-color: #FFF
+}
+
