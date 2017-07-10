@@ -47,7 +47,7 @@
         methods: {
             settingChange (isNeedSetting) {
                 this.isNeedSetting = isNeedSetting;
-                if(!isNeedSetting){
+                if (!isNeedSetting) {
                     // 促使 add-link 更新
                     this.token = window.token;
                     this.repo = window.repo;
