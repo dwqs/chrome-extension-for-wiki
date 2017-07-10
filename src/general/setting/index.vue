@@ -2,7 +2,7 @@
     <div class="setting">
         <div class="setting-input">
             <p>Wiki repo 地址:</p>
-            <el-input placeholder="输入 wiki repo, eg: dwqs/wiki" v-model="repo"></el-input>
+            <el-input placeholder="输入 wiki repo, eg: fmfe/wiki" v-model="repo"></el-input>
         </div>
         <div class="setting-input">
             <p>Repo 类型:</p>
@@ -36,7 +36,7 @@
     export default {
         data () {
             return {
-                token: 'b5b8c5aff1176cd3db53427bcf017074e1ab0c96',
+                token: '',
                 repo: '',
                 disabled: false,
                 errorMsg: '',

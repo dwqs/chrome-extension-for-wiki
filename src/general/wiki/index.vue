@@ -2,7 +2,7 @@
     <div class="wiki" id="wiki">
         <h3>{{ isNeedSetting ? 'Wiki 设置' : '添加链接' }}</h3>
         <setting @settingChange="settingChange" v-show="isNeedSetting"></setting>
-        <add-link @settingChange="settingChange" v-show="!isNeedSetting" :token="token" :repo="repo"></add-link>
+        <add-link @settingChange="settingChange" v-show="!isNeedSetting" :token.sync="token" :repo.sync="repo"></add-link>
     </div>
 </template>
 
@@ -56,6 +56,9 @@
                     // 促使 add-link 更新
                     this.token = window.token;
                     this.repo = window.repo;
+                } else {
+                    this.token = '';
+                    this.repo = '';
                 }
             }
         },

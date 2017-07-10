@@ -57,6 +57,7 @@
 
         methods: {
             getIssuesByRepo () {
+                this.loading = true;
                 api.getRepoIssues(this.repo).then((res) => {
                     this.loading = false;
                     const { data } = res;
@@ -141,6 +142,9 @@
 
             change () {
                 this.$emit('settingChange', true);
+                this.options = [];
+                this.fetchData = false;
+                this.number = '';
             }
         },
 

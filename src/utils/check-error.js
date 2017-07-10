@@ -4,7 +4,7 @@
 
 export default function (res) {
     let errorMsg = '网络异常,请稍后重试';
-    console.error('check error', res);
+    console.info('check error', res);
 
     if (res.status === 200) {
         return true;
@@ -21,6 +21,14 @@ export default function (res) {
             // token 失效
             chrome.storage.sync.remove(['token', 'repo'], () => {
                 window.eventBus.$emit('resetToken', '', '');
+                chrome.notifications.create('', {
+                    type: 'basic',
+                    message: 'Token 无效,请重新设置',
+                    title: 'Wiki',
+                    iconUrl: 'images/wiki48.png'
+                }, (notificationId) => {
+
+                });
             });
         }
 
