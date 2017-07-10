@@ -1,7 +1,7 @@
 {
   "manifest_version":2,
   "name":"wiki",
-  "description":"Add Awesome Article Link to Your Wiki Repo",
+  "description":"Add awesome article link to your wiki repo on github.com",
   "version":"1.0.0",
   "author": "https://github.com/dwqs",
   "homepage_url": "https://github.com/fmfe/chrome-extension-for-wiki",
