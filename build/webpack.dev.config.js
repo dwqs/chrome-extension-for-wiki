@@ -2,89 +2,91 @@
 
 let path = require('path');
 let webpack = require('webpack');
-let OpenBrowserPlugin = require('open-browser-webpack-plugin');
-let HappyPack = require('happypack');   //loader 多进程处理
+let ExtractTextPlugin = require("extract-text-webpack-plugin");
+let OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
+let WebpackMd5Hash = require('webpack-md5-hash');
+let CompressionPlugin = require("compression-webpack-plugin");
+let HappyPack = require('happypack');
 
 let getHappyPackConfig = require('./happypack');
 
-let devConfig = require('./webpack.base.config');
+let prodConfig = require('./webpack.base.config');
 let config = require('../config');
-const url = `http://localhost:${config.dev.port}/`;
 
-devConfig.module.rules.unshift({
-    test: /\.less$/,
-    use: ['happypack/loader?id=less-dev']
+prodConfig.module.rules.unshift({
+    test:/\.less$/,
+    use: ExtractTextPlugin.extract({
+        fallback: "vue-style-loader",
+        use: ['happypack/loader?id=less-prod']
+    })
 }, {
-    test: /\.css$/,
-    use: ['happypack/loader?id=css-dev']
+    test:/\.css$/,
+    use: ExtractTextPlugin.extract({
+        fallback: "vue-style-loader",
+        use: ['happypack/loader?id=css-prod']
+    })
 });
 
-devConfig.plugins = (devConfig.plugins || []).concat([
-    new webpack.HotModuleReplacementPlugin(),
-
+prodConfig.plugins = (prodConfig.plugins || []).concat([
     new webpack.DefinePlugin({
-        'process.env': config.dev.env
+        'process.env': config.build.env
+    }),
+
+    new ExtractTextPlugin({
+        filename: "[name].css"
     }),
 
     new HappyPack(getHappyPackConfig({
-        id: 'less-dev',
-        loaders: ['vue-style-loader','css-loader', 'postcss-loader', 'less-loader']
+        id: 'less-prod',
+        loaders: ['css-loader', {
+            path: 'postcss-loader',
+            options: {
+                sourceMap: "inline"
+            }
+        }, 'less-loader']
     })),
 
     new HappyPack(getHappyPackConfig({
-        id: 'css-dev',
-        loaders: ['vue-style-loader','css-loader', 'postcss-loader']
+        id: 'css-prod',
+        loaders: ['css-loader', {
+            path: 'postcss-loader',
+            options: {
+                sourceMap: "inline"
+            }
+        }]
     })),
 
-    new webpack.DllReferencePlugin({
-      context: __dirname,
-      //引入 dll 生成的 manifest 文件
-      manifest: require('../assets/vendor-manifest.json')
+    // Compress extracted CSS. We are using this plugin so that possible
+    // duplicated CSS from different components can be deduped.
+    new OptimizeCSSPlugin({
+        cssProcessorOptions: {
+            safe: true
+        }
     }),
 
-    new webpack.NoEmitOnErrorsPlugin(),
-    new OpenBrowserPlugin({ url: url })
+    new webpack.optimize.CommonsChunkPlugin({
+        name: "vendor"
+    }),
+
+    // gzip
+    new CompressionPlugin({
+        asset: "[path].gz[query]",
+        algorithm: "gzip",
+        test: /\.(js|html|less)$/,
+        threshold: 10240,
+        minRatio: 0.8
+    }),
+    new WebpackMd5Hash()
 ]);
 
-// see https://webpack.github.io/docs/webpack-dev-server.html
-devConfig.devServer = {
-    hot: true,
-    noInfo: false,
-    quiet: false,
-    port: config.dev.port,
-    // #https://github.com/webpack/webpack-dev-server/issues/882
-    disableHostCheck: true,
-    headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-    },
-    inline: true,
-    // 解决开发模式下 在子路由刷新返回 404 的情景
-    historyApiFallback: {
-        index: config.dev.assetsPublicPath
-    },
-    stats: {
-        colors: true,
-        modules: false
-    },
-    contentBase: config.dev.contentBase,
-    publicPath: config.dev.assetsPublicPath
-};
-
-module.exports = Object.assign({},devConfig,{
+module.exports = Object.assign({},prodConfig,{
     entry: {
-        app:[
-            'webpack/hot/dev-server',
-            `webpack-dev-server/client?http://localhost:${config.dev.port}/`,
-            path.resolve(__dirname, '../src/page/index.js')
-        ]
+        app: path.resolve(__dirname, '../src/page/index.js'),
+        vendor: ['vue', 'axios']
     },
     output: {
         filename: "[name].js",
-        path: config.dev.assetsRoot,
-        publicPath: config.dev.assetsPublicPath,
-        sourceMapFilename: '[file].map',
+        path: config.build.assetsRoot,
         chunkFilename: "[name].js"
-    },
-    devtool:'cheap-module-eval-source-map'
+    }
 });

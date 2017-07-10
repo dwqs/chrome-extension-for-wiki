@@ -7,7 +7,7 @@
   "scripts": {
     "prepush": "npm run ilint -q",
     "dll": "./node_modules/.bin/webpack --config webpack.dll.config.js",
-    "dev": "./node_modules/.bin/cross-env NODE_ENV=development node ./build/dev-server.js",
+    "dev": "cp manifest.json ./dist && ./node_modules/.bin/cross-env NODE_ENV=development ./node_modules/.bin/webpack --config ./build/webpack.dev.config.js -w --display-error-details --progress --hide-modules",
     "build": "./node_modules/.bin/cross-env NODE_ENV=production ./node_modules/.bin/webpack --config ./build/webpack.prod.config.js --progress --hide-modules",
     "postbuild": "cp manifest.json ./dist",
     "ilint": "./node_modules/.bin/eslint src/**/*.js src/**/*.vue",

@@ -1,6 +1,6 @@
 <template>
     <div class="wiki" id="wiki">
-        这是 wiki extension
+        <h3>Wiki 设置</h3>
     </div>
 </template>
 
@@ -9,6 +9,17 @@
     import AddLink from '../add-link/index.vue';
 
     export default {
+        data() {
+            return {
+                token: '',
+                repo: ''
+            }
+        },
+
+        created() {
+
+        },
+
         components: {
             Setting,
             AddLink

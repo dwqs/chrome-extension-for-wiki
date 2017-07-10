@@ -14,7 +14,6 @@ module.exports =  {
     build:{
         env: require('./prod.env.js'),
         assetsRoot: path.resolve(__dirname, '../dist'),
-        assetsPublicPath: '/',
         prefix: 'https://api.github.com'
     }
 }
