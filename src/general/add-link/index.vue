@@ -34,6 +34,7 @@
 
 <script>
     import api from '../../network/api';
+    import awaitTo from '../../utils/await-to';
 
     export default {
         props: {
@@ -82,38 +83,43 @@
                 });
             },
 
-            save () {
+            async save () {
                 if (this.disabled) {
-                    return;
+                    return Promise.resolve();
                 }
                 if (!this.number) {
                     this.errorMsg = '请选择 issue';
-                    return;
+                    return Promise.resolve();
                 }
 
                 if (!this.title) {
                     this.errorMsg = '请输入 title';
-                    return;
+                    return Promise.resolve();
                 }
 
                 if (!this.url) {
                     this.errorMsg = '请输入 url';
-                    return;
+                    return Promise.resolve();
                 }
 
                 this.disabled = true;
                 this.errorMsg = '';
 
-                api.getSingleIssue(this.repo, this.number).then(res => {
+                const [err, res] = await awaitTo(api.getSingleIssue(this.repo, this.number));
+
+                if(res){
                     const { data } = res;
                     let { title, body, state, milestone, labels, assignees } = data;
                     body = body + `\n* [${this.title}](${this.url})`;
 
-                    api.editSingleIssue(this.repo, this.number, {
+                    const [error, result] = await awaitTo(api.editSingleIssue(this.repo, this.number, {
                         title, body, state, milestone, labels, assignees
-                    }).then(res => {
+                    }));
+
+                    if(result){
                         this.disabled = false;
                         window.close();
+
                         chrome.notifications.create('', {
                             type: 'basic',
                             message: '添加成功',
@@ -122,16 +128,15 @@
                         }, (notificationId) => {
 
                         });
-                    }).catch((e) => {
-                        this.errorMsg = e.message || '添加失败';
+                    } else {
+                        this.errorMsg = error.message || '添加失败';
                         this.disabled = false;
-                        return;
-                    });
-                }).catch((e) => {
-                    this.errorMsg = e.message || '添加失败';
+                    }
+
+                } else {
+                    this.errorMsg = err.message || '添加失败';
                     this.disabled = false;
-                    return;
-                });
+                }
             },
 
             change () {

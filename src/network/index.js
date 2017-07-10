@@ -15,6 +15,9 @@ export default {
                 params: obj.data,
                 headers: {
                     authorization: `token ${window.token}`
+                },
+                validateStatus: function (status) {
+                    return status >= 200 && status < 500;
                 }
             })
         );
@@ -29,6 +32,9 @@ export default {
                 data: obj.data,
                 headers: {
                     authorization: `token ${window.token}`
+                },
+                validateStatus: function (status) {
+                    return status >= 200 && status < 500;
                 }
             })
         );
@@ -43,6 +49,9 @@ export default {
                 data: obj.data,
                 headers: {
                     authorization: `token ${window.token}`
+                },
+                validateStatus: function (status) {
+                    return status >= 200 && status < 500;
                 }
             })
         );
@@ -57,6 +66,9 @@ export default {
                 data: obj.data,
                 headers: {
                     authorization: `token ${window.token}`
+                },
+                validateStatus: function (status) {
+                    return status >= 200 && status < 500;
                 }
             })
         );

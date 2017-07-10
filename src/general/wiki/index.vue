@@ -20,9 +20,6 @@
         },
 
         created () {
-            chrome.storage.sync.remove(['token', 'repo'], () => {
-                this.isNeedSetting = false;
-            });
             chrome.storage.sync.get('token', (items) => {
                 if (!items.token) {
                     this.isNeedSetting = true;

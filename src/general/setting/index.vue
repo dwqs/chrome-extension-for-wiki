@@ -30,12 +30,13 @@
 
 <script>
     import api from '../../network/api';
+    import awaitTo from '../../utils/await-to';
     import { repoExist } from '../../utils/index';
 
     export default {
         data () {
             return {
-                token: '61a55b4736bf490dd503abaf744d64bb527f86e1',
+                token: 'b5b8c5aff1176cd3db53427bcf017074e1ab0c96',
                 repo: '',
                 disabled: false,
                 errorMsg: '',
@@ -59,35 +60,35 @@
                 });
             },
 
-            save () {
+            async save () {
                 if (this.disabled) {
-                    return;
+                    return Promise.resolve();
                 }
                 if (!this.repo) {
                     this.errorMsg = '请输入 repo 地址';
-                    return;
+                    return Promise.resolve();
                 }
 
                 const repo = this.repo.replace(/^\//, '');
 
                 if (repo.indexOf('/') === -1) {
                     this.errorMsg = 'repo 输入有误, 格式为 username/repo';
-                    return;
+                    return Promise.resolve();
                 }
 
                 if (repo.indexOf('/') !== repo.lastIndexOf('/')) {
                     this.errorMsg = 'repo 输入有误, 格式为 username/repo';
-                    return;
+                    return Promise.resolve();
                 }
 
                 if (!repo.split('/')[1]) {
                     this.errorMsg = 'repo 输入有误, 格式为 username/repo';
-                    return;
+                    return Promise.resolve();
                 }
 
                 if (!this.token) {
                     this.errorMsg = '请输入 token';
-                    return;
+                    return Promise.resolve();
                 }
 
                 this.disabled = true;
@@ -95,31 +96,31 @@
                 window.eventBus.$emit('saveData', this.token, this.repo);
 
                 if (this.type === 2) {
-                    api.getOrgRepos(this.repo.split('/')[0]).then((res) => {
+                    const [err, res] = await awaitTo(api.getOrgRepos(this.repo.split('/')[0]));
+                    if(res) {
                         this.disabled = false;
                         if (res && repoExist(this.repo.split('/')[1], res.data)) {
                             this.syncData();
                         } else {
                             this.errorMsg = 'repo 不存在';
                         }
-                    }).catch((e) => {
-                        this.errorMsg = e.message || 'token 或者 repo 无效';
+                    } else {
                         this.disabled = false;
-                        return;
-                    });
+                        this.errorMsg = err.message || 'token 或者 repo 无效';
+                    }
                 } else {
-                    api.getUserRepos(this.repo.split('/')[0]).then(res => {
+                    const [err, res] = await awaitTo(api.getUserRepos(this.repo.split('/')[0]));
+                    if(res) {
                         this.disabled = false;
                         if (res && repoExist(this.repo.split('/')[1], res.data)) {
                             this.syncData();
                         } else {
                             this.errorMsg = 'repo 不存在';
                         }
-                    }).catch((e) => {
-                        this.errorMsg = e.message || 'token 或者 repo 无效';
+                    } else {
                         this.disabled = false;
-                        return;
-                    });
+                        this.errorMsg = err.message || 'token 或者 repo 无效';
+                    }
                 }
             },
 
