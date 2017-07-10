@@ -1,0 +1,30 @@
+{
+  "manifest_version":2,
+  "name":"wiki",
+  "description":"Add Awesome Article Link to Your Wiki Repo",
+  "version":"1.0.0",
+  "author": "https://github.com/dwqs",
+  "homepage_url": "https://github.com/fmfe/chrome-extension-for-wiki",
+  "icons": {
+    "16": "images/wiki16.png",
+    "48": "images/wiki48.png",
+    "128": "images/wiki128.png"
+  },
+  "browser_action":{
+    "default_icon":"images/wiki48.png",
+    "default_title":"Add it to wiki",
+    "default_popup":"index.html"
+  },
+  "background":{
+    "scripts": [
+      "scripts/new-tab.js"
+    ],
+    "persistent": false
+  },
+  "permissions":[
+    "https://api.github.com/*",
+    "tabs",
+    "storage",
+    "notifications"
+  ]
+}
