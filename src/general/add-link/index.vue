@@ -108,7 +108,7 @@
 
                 const [err, res] = await awaitTo(api.getSingleIssue(this.repo, this.number));
 
-                if(res){
+                if (res) {
                     const { data } = res;
                     let { title, body, state, milestone, labels, assignees } = data;
                     body = body + `\n* [${this.title}](${this.url})`;
@@ -117,7 +117,7 @@
                         title, body, state, milestone, labels, assignees
                     }));
 
-                    if(result){
+                    if (result) {
                         this.disabled = false;
                         window.close();
 
@@ -133,7 +133,6 @@
                         this.errorMsg = error.message || '添加失败';
                         this.disabled = false;
                     }
-
                 } else {
                     this.errorMsg = err.message || '添加失败';
                     this.disabled = false;

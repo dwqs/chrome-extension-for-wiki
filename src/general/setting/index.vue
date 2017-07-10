@@ -97,7 +97,7 @@
 
                 if (this.type === 2) {
                     const [err, res] = await awaitTo(api.getOrgRepos(this.repo.split('/')[0]));
-                    if(res) {
+                    if (res) {
                         this.disabled = false;
                         if (res && repoExist(this.repo.split('/')[1], res.data)) {
                             this.syncData();
@@ -110,7 +110,7 @@
                     }
                 } else {
                     const [err, res] = await awaitTo(api.getUserRepos(this.repo.split('/')[0]));
-                    if(res) {
+                    if (res) {
                         this.disabled = false;
                         if (res && repoExist(this.repo.split('/')[1], res.data)) {
                             this.syncData();
