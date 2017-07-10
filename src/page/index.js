@@ -5,6 +5,11 @@
 import './reset.less';
 
 import Vue from 'vue';
+import { Input, Select } from 'element-ui';
+
+// 按需引入
+Vue.use(Input);
+Vue.use(Select);
 
 import Wiki from '../general/wiki/index.vue';
 
