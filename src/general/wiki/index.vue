@@ -39,6 +39,14 @@
                 window.eventBus.$emit('saveData', '', items.repo);
                 this.isNeedSetting = false;
             });
+
+            window.eventBus.$on('resetToken', (token, repo) => {
+                this.isNeedSetting = true;
+                this.token = token;
+                this.repo = repo;
+                window.token = token;
+                window.repo = repo;
+            });
         },
 
         methods: {

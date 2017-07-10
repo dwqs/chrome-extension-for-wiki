@@ -20,6 +20,7 @@ export default function (res) {
         if( res.status === 401) {
             // token 失效
             chrome.storage.sync.remove(['token', 'repo'], () => {
+                window.eventBus.$emit('resetToken', '', '');
             });
         }
 
